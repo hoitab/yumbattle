@@ -12,8 +12,12 @@ handlers:
 - url: /uploadphoto
   script: uploadhandler.application
 
-- url: /.*
-  script: asklogin.application
+- url: /
+  static_files: www/index.html
+  upload: www/index.html
+
+- url: /
+  static_dir: www
 
 libraries:
 - name: webapp2
