@@ -11,6 +11,9 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import blobstore_handlers
 from model.meal import Meal
 
+upload_url = blobstore.create_upload_url('/uploadphoto')
+logging.info('Upload URL = %s', upload_url)
+
 class PhotoUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 
     def post(self):
@@ -22,8 +25,9 @@ class PhotoUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
         logging.info('Getting picture file')
         location = self.request.get('canteenLocation')
         logging.info('Upload photo is from (%s)', location)
+        logging.info('Upload photo is (%s)', picture_file)
 
-        meal = Meal(picture='Placeholder picture', # picture_file.key(),
+        meal = Meal(picture = picture_file.key(),
             canteenlocation=location,
             canteenid='Placeholder ID',
             canteenname='Placeholder Name',
