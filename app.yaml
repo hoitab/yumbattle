@@ -7,6 +7,9 @@ threadsafe: yes
 handlers:
 - url: /uploadphoto
   script: uploadhandler.application
+  
+- url: /getuploadurl
+  script: uploadhandler.application
 
 - url: /
   static_files: www/index.html

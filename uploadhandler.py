@@ -9,10 +9,14 @@ from google.appengine.ext import webapp
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import blobstore_handlers
+from google.appengine.ext.webapp import RequestHandler
 from model.meal import Meal
 
-upload_url = blobstore.create_upload_url('/uploadphoto')
-logging.info('Upload URL = %s', upload_url)
+class GetBlobstoreUrl(RequestHandler):
+    def get(self):
+        upload_url = blobstore.create_upload_url('/uploadphoto')
+        logging.debug(upload_url)
+        self.response.out.write(upload_url)
 
 class PhotoUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 
@@ -27,7 +31,7 @@ class PhotoUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
         logging.info('Upload photo is from (%s)', location)
         logging.info('Upload photo is (%s)', picture_file)
 
-        meal = Meal(picture = picture_file.key(),
+        meal = Meal(picture = picture_file[0].key(),
             canteenlocation=location,
             canteenid='Placeholder ID',
             canteenname='Placeholder Name',
@@ -42,7 +46,8 @@ class PhotoUploadHandler(blobstore_handlers.BlobstoreUploadHandler):
 #            logging.info('Error uploading picture')
 
 
-application = webapp.WSGIApplication([('/uploadphoto', PhotoUploadHandler)
+application = webapp.WSGIApplication([('/getuploadurl', GetBlobstoreUrl),
+                                      ('/uploadphoto', PhotoUploadHandler)
                                      ], debug=True)
 
 def main():
