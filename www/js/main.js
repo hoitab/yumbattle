@@ -33,6 +33,7 @@ console.log(this.id);
       wrong2.style.opacity = "0";
       //setMealimages();
   }
+  setTimeout("location.reload(true);",2000);
 });
 
 function setMealimages(){
