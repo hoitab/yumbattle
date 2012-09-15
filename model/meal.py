@@ -11,8 +11,6 @@ class Meal(db.Model):
     timestamp = db.DateTimeProperty(auto_now_add=True)
     canteenlocation = db.GeoPtProperty()
     canteenid = db.StringProperty()
-    canteenname = db.StringListProperty()
+    canteenname = db.StringProperty()
     contestcount = db.IntegerProperty()
     contestscore = db.IntegerProperty()
-    
-        
